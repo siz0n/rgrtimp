@@ -1,0 +1,57 @@
+```yaml
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+    branches:
+      - main
+      - master
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    name: Test backend and frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Получение исходного кода
+        uses: actions/checkout@v6
+
+      - name: Установка Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Установка зависимостей backend
+        working-directory: backend
+        run: npm ci
+
+      - name: Тестирование backend
+        working-directory: backend
+        run: npm test
+
+      - name: Установка зависимостей frontend
+        working-directory: frontend
+        run: npm ci
+
+      - name: Тестирование frontend
+        working-directory: frontend
+        run: npm test
+
+      - name: Сборка frontend
+        working-directory: frontend
+        run: npm run build
+```
