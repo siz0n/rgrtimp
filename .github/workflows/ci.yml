@@ -1,4 +1,4 @@
-```yaml
+
 name: CI
 
 on:
@@ -54,4 +54,4 @@ jobs:
       - name: Сборка frontend
         working-directory: frontend
         run: npm run build
-```
+
