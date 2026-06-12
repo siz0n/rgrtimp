@@ -1,17 +1,8 @@
-
 name: CI
 
 on:
   push:
-    branches:
-      - main
-      - master
-
   pull_request:
-    branches:
-      - main
-      - master
-
   workflow_dispatch:
 
 permissions:
@@ -32,26 +23,25 @@ jobs:
           node-version: "20"
           cache: "npm"
           cache-dependency-path: |
-            backend/package-lock.json
-            frontend/package-lock.json
+            pd_requests_app/backend/package-lock.json
+            pd_requests_app/frontend/package-lock.json
 
       - name: Установка зависимостей backend
-        working-directory: backend
+        working-directory: pd_requests_app/backend
         run: npm ci
 
       - name: Тестирование backend
-        working-directory: backend
+        working-directory: pd_requests_app/backend
         run: npm test
 
       - name: Установка зависимостей frontend
-        working-directory: frontend
+        working-directory: pd_requests_app/frontend
         run: npm ci
 
       - name: Тестирование frontend
-        working-directory: frontend
+        working-directory: pd_requests_app/frontend
         run: npm test
 
       - name: Сборка frontend
-        working-directory: frontend
+        working-directory: pd_requests_app/frontend
         run: npm run build
-
